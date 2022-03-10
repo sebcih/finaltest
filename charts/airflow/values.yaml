@@ -1,0 +1,98 @@
+airflow:
+  # Default airflow repository -- overrides all the specific images below
+  defaultAirflowRepository: apache/airflow
+  # Default airflow tag to deploy
+  defaultAirflowTag: "2.2.3"
+  # Airflow version (Used to make some decisions based on Airflow Version being deployed)
+  airflowVersion: "2.2.3"
+  # Ingress configuration
+  ingress:
+    # Enable ingress resource
+    enabled: false
+    # Configs for the Ingress of the web Service
+    web:
+      # Annotations for the web Ingress
+      annotations: {}
+      # The path for the web Ingress
+      path: "/"
+      # The hostnames or hosts configuration for the web Ingress
+      hosts: 
+      - name: "airflow.dev.eatron.com"
+        # configs for web Ingress TLS
+        tls:
+          # Enable TLS termination for the web Ingress
+          enabled: false
+          # the name of a pre-created Secret containing a TLS private key and certificate
+          secretName: ""
+      # The Ingress Class for the web Ingress (used only with Kubernetes v1.19 and above)
+      ingressClassName: ""
+
+  # Airflow executor
+  # Options: LocalExecutor, CeleryExecutor, KubernetesExecutor, CeleryKubernetesExecutor
+  executor: "KubernetesExecutor"
+
+  extraEnvFrom: |
+    - configMapRef:
+        name: 'airflow-variables'
+
+  # Airflow create user job settings
+  createUserJob:
+    useHelmHooks: false
+
+  migrateDatabaseJob:
+    useHelmHooks: false
+
+
+  # Elasticsearch logging configuration
+  elasticsearch:
+    # Enable elasticsearch task logging
+    enabled: false
+    # A secret containing the connection
+    secretName: ~
+    # Or an object representing the connection
+    # Example:
+    # connection:
+    #   user: ~
+    #   pass: ~
+    #   host: ~
+    #   port: ~
+    connection: {}
+
+  config:
+    webserver:
+      enable_proxy_fix: 'True'
+      base_url: ""
+      
+  # Git sync
+  dags:
+    persistence:
+      # Enable persistent volume for storing dags
+      enabled: false
+      # Volume size for dags
+      size: 1Gi
+      # If using a custom storageClass, pass name here
+      storageClassName:
+      # access mode of the persistent volume
+      accessMode: ReadWriteOnce
+      ## the name of an existing PVC to use
+      existingClaim:
+    gitSync:
+      enabled: true
+      repo: ssh://git@bitbucket.org:eatron/ai_infrastructure.git
+      branch: main
+      rev: HEAD
+      depth: 1
+      maxFailures: 0
+      subPath: "dags/"
+      sshKeySecret: airflow-ssh-git-secret
+      
+  logs:
+    persistence:
+      # Enable true volume for storing logs
+      enabled: false
+      # Volume size for logs
+      size: 10Gi
+      # If using a custom storageClass, pass name here
+      storageClassName: 
+      ## the name of an existing PVC to use
+      existingClaim: airflow-pvc
