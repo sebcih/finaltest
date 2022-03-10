@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     path: k8s-configs
-    repoURL: git@github.com:sebcih/argogit.git
+    repoURL: https://github.com/sebcih/finaltest.git
     targetRevision: HEAD
   syncPolicy:
     automated:
