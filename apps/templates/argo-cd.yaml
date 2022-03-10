@@ -14,8 +14,8 @@ spec:
     helm:
       valueFiles:
       - values.yaml
-    path: argo/charts/argo-cd
-    repoURL: git@bitbucket.org:eatron/infrastructure.git
+    path: charts/argo-cd
+    repoURL: https://github.com/sebcih/finaltest.git
     targetRevision: HEAD
   syncPolicy:
     automated:

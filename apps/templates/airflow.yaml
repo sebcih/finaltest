@@ -11,8 +11,8 @@ spec:
     namespace: ai
   project: default
   source:
-    path: argo/charts/airflow
-    repoURL: git@github.com:sebcih/argogit.git
+    path: charts/airflow
+    repoURL: https://github.com/sebcih/finaltest.git
     helm:
       valueFiles:
       - values.yaml

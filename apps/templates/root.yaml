@@ -10,8 +10,8 @@ spec:
     namespace: argo
   project: default
   source:
-    path: argo/apps/
-    repoURL: git@bitbucket.org:eatron/infrastructure.git
+    path: apps/
+    repoURL: https://github.com/sebcih/finaltest.git
     targetRevision: HEAD
   syncPolicy:
     automated:
